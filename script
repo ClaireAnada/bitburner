@@ -1,0 +1,64 @@
+//full array of all servers to hack
+var fuck = ['foodnstuff', 'sigma-cosmetics', 'joesguns', 'hong-fang-tea', 'harakiri-sushi', 'iron-gym', 'zer0', 'nectar-net', 'CSEC', 'max-hardware', 'neo-net', 'omega-net', 'silver-helix', 'phantasy', 'johnson-ortho', 'netlink', 'the-hub', 'comptek', 'crush-fitness', 'avmnite-02h', 'summit-uni', 'rothman-uni', 'syscore', 'zb-institute', 'catalyst', 'I.I.I.I', 'aevum-police', 'millenium-fitness', 'rho-construction', 'lexo-corp', 'alpha-ent', 'galactic-cyber', 'global-pharm', 'aerocorp', 'snap-fitness', 'deltaone', 'omnia', 'unitalife', 'solaris', 'univ-energy', 'defcomm', 'icarus', 'zeus-med', 'infocomm', 'nova-med', 'zb-def', 'taiyang-digital', 'titan-labs', 'applied-energetics', 'microdyne', 'run4theh111z', 'stormtech', 'helios', 'fulcrumtech', 'vitalife', 'kuai-gong', '.', '4sigma', 'omnitek', 'b-and-a', 'nwo', 'powerhouse-fitness', 'blade', 'clarkinc', 'megacorp', 'ecorp', 'fulcrumassets', 'The-Cave'];
+
+for (r = 0; r <= fuck.length; r++) {
+    //target server's total/used RAM
+    var ram = getServerRam(fuck[r]);
+    //target server's max threads
+    var t = Math.floor((ram[0] - ram[1]) / 2.65);
+    //kills script if gone through array
+    if (r === (fuck.length)) {
+        exit();
+        
+    //check if target has root
+    //if false, gain root to target
+    } else if (hasRootAccess(fuck[r]) === false) {
+        if (fileExists('BruteSSH.exe')) {
+            brutessh(fuck[r]);
+        }
+        if (fileExists('FTPCrack.exe')) {
+            ftpcrack(fuck[r]);
+        }
+        if (fileExists('relaySMTP.exe')) {
+            relaysmtp(fuck[r]);
+        }
+        if (fileExists('HTTPWorm.exe')) {
+            httpworm(fuck[r]);
+        }
+        if (fileExists('SQLInject.exe')) {
+            sqlinject(fuck[r]);
+        }
+        if (nuke(fuck[r]) === false);
+        continue;
+    } else nuke(fuck[r]);
+
+    //check if you have required hacking level to hack server
+    //if required server hacking level is less than or equal to yours, then start hacking process
+    if (getServerRequiredHackingLevel(fuck[r]) <= getHackingLevel()) {
+        //check if script is already running on target server
+        if (isRunning('/scripts/hack.script', fuck[r]) === true) {
+            tprint('Script already running on ' + fuck[r]);
+            continue;
+        //check if script is running on home for target
+        } else if (isRunning('/scripts/hackhome.script', 'home', fuck[r]) === true) {
+            tprint('Script for ' + fuck[r] + ' is already running');
+            continue;
+        //if there is not enough free ram, then run script on home with 50 threads   
+        } else if (t === 0) {
+            tprint('No free space to run script on ' + fuck[r]);
+            (run('/scripts/hackhome.script', [numThreads = 50], fuck[r]));
+            tprint('Script Executed on home for ' + fuck[r] + ' successfully.');
+            continue;
+        //if there is free RAM, run script at max threads    
+        } else {
+            scp('/scripts/hack.script', fuck[r]);
+            exec('/scripts/hack.script', fuck[r], [numThreads = t]);
+        }//check if script was executed on target server successfully
+        if (isRunning('/scripts/hack.script', fuck[r]) === true);
+        tprint('Script Execution for ' + fuck[r] + ' Successful.');
+        continue;
+    } else {
+        //print this if hacking level not high enough for hack
+        tprint('Hacking level not high enough to hack ' + fuck[r] + '.');
+    }
+}
