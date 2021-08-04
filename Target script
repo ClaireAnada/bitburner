@@ -1,0 +1,96 @@
+import { servers } from "serverlist.ns";
+export async function main(ns) {
+
+    let file = ("hack.ns");
+    let n = 0;
+    let hacked = 0;
+
+    //ns.tprint(threads," ",n);
+    while (hacked < servers.length) {
+        if (n < servers.length) {
+
+            let target = (servers[n]);
+            let max = ns.getServerMaxRam(target) - ns.getServerUsedRam(target);
+            let threads = Math.floor(max / ns.getScriptRam(file));
+
+            //gain root on target server
+            if ((ns.fileExists("sqlinject.exe") === true) && (ns.getServerNumPortsRequired(target) === 5)) {
+
+                ns.brutessh(target);
+                ns.ftpcrack(target);
+                ns.relaysmtp(target);
+                ns.httpworm(target);
+                ns.sqlinject(target);
+                ns.nuke(target);
+
+            } else if ((ns.fileExists("httpworm.exe") === true) && (ns.getServerNumPortsRequired(target) === 4)) {
+
+                ns.brutessh(target);
+                ns.ftpcrack(target);
+                ns.relaysmtp(target);
+                ns.httpworm(target);
+                ns.nuke(target);
+
+            } else if ((ns.fileExists("relaysmtp.exe") === true) && (ns.getServerNumPortsRequired(target) === 3)) {
+
+                ns.brutessh(target);
+                ns.ftpcrack(target);
+                ns.relaysmtp(target);
+                ns.nuke(target);
+
+            } else if ((ns.fileExists("ftpcrack.exe") === true) && (ns.getServerNumPortsRequired(target) === 2)) {
+
+                ns.brutessh(target);
+                ns.ftpcrack(target);
+                ns.nuke(target);
+
+            } else if ((ns.fileExists("brutessh.exe") === true) && (ns.getServerNumPortsRequired(target) === 1)) {
+
+                ns.brutessh(target);
+                ns.nuke(target);
+
+            } else if (ns.getServerNumPortsRequired(target) === 0) {
+
+                ns.nuke(target);
+
+            } else {
+
+
+
+            }
+            if (ns.getServerRequiredHackingLevel(target) > ns.getHackingLevel()) {
+
+                n = n + 1;
+
+            } else if ((threads > 0) && (ns.hasRootAccess(target) === true) && (ns.getServerMaxMoney(target) > 0)) {
+
+                //installs backdoor on target
+                //Requires Bitnode 4
+                //ns.installBackdoor(target);
+
+                //move hack script to target
+                ns.scp(file, target);
+
+                //execute hack script on target server with max threads
+                ns.exec(file, target, threads, target);
+                await ns.sleep(250);
+                ns.tprint(target, " hacked");
+                n = n + 1;
+                hacked = hacked + 1;
+
+            } else if (ns.getServerMaxMoney(target) === 0) {
+
+                n = n + 1;
+                hacked = hacked + 1;
+
+            } else {
+
+                n = n + 1;
+            }
+        } else {
+
+            n = 0;
+            await ns.sleep(120000);
+        }
+    }
+}
