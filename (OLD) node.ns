@@ -1,0 +1,37 @@
+export async function main(ns) {
+
+    while (true) {
+        if (ns.hacknet.getPurchaseNodeCost() < (ns.getServerMoneyAvailable("home") / 100)) {
+            ns.tprint("New node Purchased. " + ns.nFormat(ns.hacknet.getPurchaseNodeCost(), "0,0.00") + " spent");
+            ns.hacknet.purchaseNode();
+        }
+
+        for (var i = 0; i < ns.hacknet.numNodes(); i++) { //passing node integer as i
+            if (ns.hacknet.getNodeStats(i).level <= 200) { //Upgrading Nodes by 1 level if cost < 100th of current money.
+                while (ns.hacknet.getLevelUpgradeCost(i) < (ns.getServerMoneyAvailable("home") / 100)) {
+                    ns.hacknet.upgradeLevel(i, 1);
+                    //ns.tprint ("Node "+ i + " Level Purchased.")
+                }
+            }
+
+            if (ns.hacknet.getNodeStats(i).ram < 200) { //Upgrading the Node RAM once if cost < 100th of current money.
+                if (ns.hacknet.getRamUpgradeCost(i) < (ns.getServerMoneyAvailable("home") / 100)) {
+                    ns.hacknet.upgradeRam(i, 1);
+                    //ns.tprint ("Node "+ i + " RAM Purchased.")
+                }
+            }
+
+            if (ns.hacknet.getNodeStats(i).cores < 200) { //Upgrading the Node Core once if cost < 100th of current money.
+                if (ns.hacknet.getCoreUpgradeCost(i) < (ns.getServerMoneyAvailable("home") / 100)) {
+                    ns.hacknet.upgradeCore(i, 1);
+                    //ns.tprint ("Node "+ i + " Core Purchased.")
+                }
+            }
+        }
+        await ns.sleep(3000);
+        //break;
+    }
+
+    tprint("Black Magic Happened");
+
+}
