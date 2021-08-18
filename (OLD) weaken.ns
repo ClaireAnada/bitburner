@@ -1,0 +1,15 @@
+export async function main(ns) {
+
+    var server = ['foodnstuff', 'sigma-cosmetics', 'joesguns', 'hong-fang-tea', 'harakiri-sushi', 'iron-gym', 'zer0', 'nectar-net', 'CSEC', 'max-hardware', 'neo-net', 'omega-net', 'silver-helix', 'phantasy', 'johnson-ortho', 'netlink', 'the-hub', 'comptek', 'crush-fitness', 'avmnite-02h', 'summit-uni', 'rothman-uni', 'syscore', 'zb-institute', 'catalyst', 'I.I.I.I', 'aevum-police', 'millenium-fitness', 'rho-construction', 'lexo-corp', 'alpha-ent', 'galactic-cyber', 'global-pharm', 'aerocorp', 'snap-fitness', 'deltaone', 'omnia', 'unitalife', 'solaris', 'univ-energy', 'defcomm', 'icarus', 'zeus-med', 'infocomm', 'nova-med', 'zb-def', 'taiyang-digital', 'titan-labs', 'applied-energetics', 'microdyne', 'run4theh111z', 'stormtech', 'helios', 'fulcrumtech', 'vitalife', 'kuai-gong', '.', '4sigma', 'omnitek', 'b-and-a', 'nwo', 'powerhouse-fitness', 'blade', 'clarkinc', 'megacorp', 'ecorp', 'fulcrumassets', 'The-Cave'];
+
+    while (true) {
+        for (var s = 0; s <= server.length; s++) {
+            if (ns.hasRootAccess(server[s])) {
+                await ns.weaken(server[s]);
+                if (s == server.length){
+                    (s = 0);
+                }
+            } else continue;
+        }
+    }
+}
