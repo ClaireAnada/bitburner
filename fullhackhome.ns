@@ -1,0 +1,55 @@
+export async function main(ns) {
+
+    //full array of all servers to hack
+    var fuck = ['foodnstuff', 'sigma-cosmetics', 'joesguns', 'hong-fang-tea', 'harakiri-sushi', 'iron-gym', 'zer0', 'nectar-net', 'CSEC', 'max-hardware', 'neo-net', 'omega-net', 'silver-helix', 'phantasy', 'johnson-ortho', 'netlink', 'the-hub', 'comptek', 'crush-fitness', 'avmnite-02h', 'summit-uni', 'rothman-uni', 'syscore', 'zb-institute', 'catalyst', 'I.I.I.I', 'aevum-police', 'millenium-fitness', 'rho-construction', 'lexo-corp', 'alpha-ent', 'galactic-cyber', 'global-pharm', 'aerocorp', 'snap-fitness', 'deltaone', 'omnia', 'unitalife', 'solaris', 'univ-energy', 'defcomm', 'icarus', 'zeus-med', 'infocomm', 'nova-med', 'zb-def', 'taiyang-digital', 'titan-labs', 'applied-energetics', 'microdyne', 'run4theh111z', 'stormtech', 'helios', 'fulcrumtech', 'vitalife', 'kuai-gong', '.', '4sigma', 'omnitek', 'b-and-a', 'nwo', 'powerhouse-fitness', 'blade', 'clarkinc', 'megacorp', 'ecorp', 'fulcrumassets', 'The-Cave'];
+
+    for (var r = 0; r < fuck.length; r++) {
+        //target server's total/used RAM
+        var ram = ns.getServerRam(fuck[r]);
+        //target server's max threads
+        var t = Math.floor((ram[0] - ram[1]) / 2.45);
+        //kills script if gone through array
+        if (r === (fuck.length)) {
+            ns.exit();
+
+            //check if target has root
+            //if false, gain root to target
+        } else if (ns.hasRootAccess(fuck[r]) === false) {
+            if (ns.fileExists('BruteSSH.exe')) {
+                ns.brutessh(fuck[r]);
+            }
+            if (ns.fileExists('FTPCrack.exe')) {
+                ns.ftpcrack(fuck[r]);
+            }
+            if (ns.fileExists('relaySMTP.exe')) {
+                ns.relaysmtp(fuck[r]);
+            }
+            if (ns.fileExists('HTTPWorm.exe')) {
+                ns.httpworm(fuck[r]);
+            }
+            if (ns.fileExists('SQLInject.exe')) {
+                ns.sqlinject(fuck[r]);
+            }
+            if (ns.nuke(fuck[r]) === false) {
+                ns.tprint('Cannot Nuke ' + fuck[r]);
+                continue;
+            }
+        } else ns.nuke(fuck[r]);
+
+        //check if you have required hacking level to hack server
+        //if required server hacking level is less than or equal to yours, then start hacking process
+        if (ns.getServerRequiredHackingLevel(fuck[r]) <= ns.getHackingLevel()) {
+            //check if script is already running on target server
+            if (ns.isRunning('/scripts/hackhome.ns', 'home', fuck[r]) === true) {
+                ns.tprint('Script for ' + fuck[r] + ' is already running');
+                continue;
+
+            } else if (ns.run('/scripts/hackhome.ns', [ns.numThreads = 500], fuck[r]));
+            ns.tprint('Script Executed on home for ' + fuck[r] + ' successfully.');
+            continue;
+        } else {
+            //print this if hacking level not high enough for hack
+            ns.tprint('Hacking level not high enough to hack ' + fuck[r] + '.');
+        }
+    }
+}
