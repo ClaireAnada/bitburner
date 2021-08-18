@@ -1,0 +1,49 @@
+export async function main(ns) {
+
+    //function onlyUnique(value, index, self) {
+    //    return self.indexOf(value) === index;
+    //}
+
+    //var unique = target.filter(onlyUnique);
+    //tprint(unique);
+
+
+    //var target = scan('home');
+
+    //for (x = 0; x < 10; x++) {
+    //tprint(x+1 + ") Current for-loop execution")
+
+    var target = ns.scan('home');
+
+
+    for (var i = 0; i < target.length; i++) {
+
+        var arr = ns.scan(target[i]);
+
+        for (var fuck = 0; fuck < arr.length; fuck++) {
+            //tprint("FUCK: " + arr[fuck]);
+            if (target.includes(arr[fuck]) === false) {
+                target.push(arr[fuck]);
+            }
+        }
+
+        //for (y = 0; y < arr.length; y++) {
+        //    print("FUCK: " + arr[y]);
+        //    if( target.includes(arr[y]) === false) {
+        //        target.push(arr);
+        //    }
+        //}
+
+        //unique.filter(onlyUnique);
+        //tprint("Current: " + target[i] + "");
+        //tprint(unique);
+        //tprint(target);
+        //tprint(scan(target[i]));
+
+
+    }
+    for (var s = 0; s <= target.length; s++) {
+        ns.write('serverlist.txt', ns.data = "'" + target[s] + "',");
+    }
+    ns.tprint(target);
+}
