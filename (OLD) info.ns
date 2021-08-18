@@ -1,0 +1,13 @@
+export async function main(ns) {
+
+var target = ns.args;
+
+ns.tprint(target + ' max money: ' + ns.nFormat(ns.getServerMaxMoney(target), "$0,0"));
+ns.tprint(target + ' current money: ' + ns.nFormat(ns.getServerMoneyAvailable(target), "$0,0.00"));
+ns.tprint(target + ' min security: ' + ns.nFormat(ns.getServerMinSecurityLevel(target), "0,0.00"));
+ns.tprint(target + ' current security: ' + ns.nFormat(ns.getServerSecurityLevel(target), "0,0.00"));
+ns.tprint(target + ' ports required: ' + ns.getServerNumPortsRequired(target));
+ns.tprint(target + ' total/used RAM: ' + ns.getServerRam(target));
+ns.tprint(target + ' Server Growth: ' + ns.getServerGrowth(target));
+ns.tprint(target + ' Required hacking level: ' + ns.getServerRequiredHackingLevel(target));
+}
