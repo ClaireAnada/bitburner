@@ -1,0 +1,27 @@
+export async function main(ns) {
+
+    var servers = ['fulcrumassets', 'foodnstuff', 'sigma-cosmetics', 'joesguns', 'nectar-net', 'hong-fang-tea', 'harakiri-sushi', 'neo-net', 'zer0', 'max-hardware', 'iron-gym', 'phantasy', 'silver-helix', 'crush-fitness', 'omega-net', 'johnson-ortho', 'the-hub', 'summit-uni', 'rothman-uni', 'comptek', 'aevum-police', 'millenium-fitness', 'netlink', 'snap-fitness', 'syscore', 'catalyst', 'rho-construction', 'alpha-ent', 'lexo-corp', 'galactic-cyber', 'zb-institute', 'aerocorp', 'global-pharm', 'unitalife', 'omnia', 'deltaone', 'defcomm', 'zeus-med', 'icarus', 'univ-energy', 'solaris', 'infocomm', 'taiyang-digital', 'zb-def', 'nova-med', 'titan-labs', 'microdyne', 'run4theh111z', 'applied-energetics', 'stormtech', 'vitalife', 'fulcrumtech', 'helios', '.', 'kuai-gong', 'omnitek', '4sigma', 'powerhouse-fitness', 'b-and-a', 'nwo', 'blade', 'clarkinc', 'megacorp', 'ecorp', 'CSEC', 'avmnite-02h', 'I.I.I.I', 'The-Cave'];
+
+    //This is to sort the array by max Money in the servers.
+    var flag = true; //need a boolean to easily break the while loop for sorting
+
+    while (flag === true) {
+        //reset until false carries through
+        flag = false;
+        for (var d = 0; d < servers.length - 1; d++) {
+            if (ns.getServerMaxMoney(servers[d + 1]) < ns.getServerMaxMoney(servers[d])) {
+                flag = true;
+                var temp = servers[d];
+                servers[d] = servers[d + 1];
+                servers[d + 1] = temp;
+            }
+        }
+        await ns.sleep(1);
+    }
+
+    //This is for displaying the text
+    for (var i = 0; i < servers.length; i++) {
+        if (ns.getServerMaxMoney(servers[i]) !== 0)
+            ns.tprint(servers[i] + "\n\t\t has " + ns.nFormat(ns.getServerMoneyAvailable(servers[i]), "$0.00a") + " out of " + ns.nFormat(ns.getServerMaxMoney(servers[i]), "$0.00a") + "\t : " + ns.nFormat(ns.getServerMoneyAvailable(servers[i]) / ns.getServerMaxMoney(servers[i]), "0.00") * 100 + "% full. \n\t\t ----------------------------------------");
+    }
+}
