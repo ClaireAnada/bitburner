@@ -12,7 +12,7 @@ while(r < servers.length){
 		let target = (servers[n]);
 		let max = (ns.getServerMaxRam(target) - ns.getServerUsedRam(target));
     	let threads = Math.floor(max / ns.getScriptRam("hack.js"));
-		if(ns.isRunning("hack.js", target, target) === true){
+		if((ns.isRunning("hack.js", target, target) === true) || (ns.fileExists("no_money.txt", target) === true) || (ns.fileExists("no_ram.txt", target) === true)){
 			n = n + 1;
 			//ns.tprint(target + " is already hacked.");
 		} else {
@@ -47,7 +47,7 @@ while(r < servers.length){
 				await ns.sleep(250);
 			}
 			if(p >= ns.getServerNumPortsRequired(target)){
-			 	if((ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(target)) && (threads > 0)){
+			 	if((ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(target)) && (threads > 0) && (ns.getServerMaxMoney(target) > 0) && (ns.getServerMaxRam(target) > 0)){
 					ns.nuke(target);
 					await ns.scp("hack.js", target);
 					ns.exec("hack.js", target, threads, target);
@@ -56,12 +56,26 @@ while(r < servers.length){
 					p = 0;
 					ns.tprint(target + " hacked.");
 					await ns.sleep(250);
-				 } else {
-					 n = n +1;
+				 } else if ((ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(target)) && (threads > 0) && (ns.getServerMaxMoney(target) === 0) && (ns.getServerMaxRam(target) > 0)){
+					 ns.nuke(target);
+					 await ns.scp("no_money.txt", target);
+					 n = n + 1;
+					 r = r + 1;
 					 p = 0;
-					 //ns.tprint("Hacking level not high enough.");
 					 await ns.sleep(250);
-				 } 
+					 ns.tprint(target + " hacked.");
+				 } else if ((ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(target)) && (ns.getServerMaxRam(target) === 0)){
+					 ns.nuke(target);
+					 await ns.scp("no_ram.txt", target);
+					 n = n + 1;
+					 r = r + 1;
+					 p = 0;
+					 await ns.sleep(250);
+					 ns.tprint(target + " hacked.");
+				 } else {
+					 n = n + 1;
+					 p = 0;
+				 }
 			} else {
 				//ns.tprint(target + " has " + p + " ports open");
 				n = n + 1;
